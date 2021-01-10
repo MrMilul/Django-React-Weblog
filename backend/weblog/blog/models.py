@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from django.utils import timezone
 from django.template.defaultfilters import slugify
 
 
@@ -44,7 +45,7 @@ class BlogPost(models.Model):
     day = models.CharField(max_length=3, choices=Days.choices, default=Days.MON)
     context = models.TextField()
     featured = models.BooleanField(default=False)
-    date_created = models.DateTimeField(default=datetime.now, blank=True)
+    date_created = models.DateTimeField(default=timezone.now, blank=True)
 
     def save(self, *args, **kwargs):
         original_slug = slugify(self.title)
@@ -53,7 +54,7 @@ class BlogPost(models.Model):
         count = 1
         slug = original_slug
         while queryset:
-            slug = original_slug + ' ' + str(count)
+            slug = original_slug + '-' + str(count)
             count += 1
             queryset = BlogPost.objects.all().filter(slug__iexact=slug).count()
 
@@ -68,7 +69,7 @@ class BlogPost(models.Model):
             except BlogPost.DoesNotExist:
                 pass
 
-        super(BlogPost, self).save(self, *args, *kwargs)
+        super(BlogPost, self).save(*args, *kwargs)
 
     def __str__(self):
         return self.title
