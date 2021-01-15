@@ -14,9 +14,9 @@ class App extends Component {
         <Layout>
           <Switch>
             <Route exact path="/" component={Home}/>
-            <Route  path="/blog" component={Blog}/>
-            <Route exact path="/blog/:id" component={BlogDetail}/>
-            <Route exact path="/category/:id" component={Category}/>
+            <Route exact path="/blog" component={Blog}/>
+            <Route path="/blog/:id" component={BlogDetail}/>
+            <Route path="/category/:id" component={Category}/>
           </Switch>
         </Layout>
       </Router>
